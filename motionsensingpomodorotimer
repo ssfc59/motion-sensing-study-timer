@@ -1,0 +1,170 @@
+// time
+uint8_t pomodoroflag = 0;
+unsigned long Start, finished, elapsed;
+
+// Neopixels
+#include <Adafruit_NeoPixel.h>
+#define PIN 6
+#define NUMPIXELS 5
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN);
+
+// PIR sensor
+uint8_t inputPin = 9;
+uint8_t readPIR = 0;
+uint8_t nomotionflag = 0;
+unsigned long startTime;
+
+// LCD screen
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(7, 6, 2, 3, 4, 5);
+
+// Motivational messages
+const char string[][17] = {"let's go!", "keep it up ^_^  ", "keep going!     ", "you can do it!  ", "nice work :)    ", "amazing!!       ", "hang in there <3", "way to go! :D   ", "you got this!!! ", "good luck ^_^ <3"};
+
+void setup()
+{
+  // time
+  startTime = millis();
+  Serial.begin(9600);
+
+  // Neopixels
+  pixels.begin();
+  pixels.show();
+
+  // PIR sensor
+  pinMode(inputPin, INPUT);
+
+  // LCD screen
+  lcd.begin(16, 2);
+  Serial.print("connecting to LCD.");
+  lcd.println("start LCD");
+  delay(5000);
+
+  // Motivational messages
+  randomSeed(analogRead(0));
+}
+
+void loop()
+{
+  if (pomodoroflag == 1)
+  {
+    pixels.setPixelColor(i, 250, 250, 250); // set LEDs to white
+    LCD.print("take a break :)");
+    delay(50000);
+  }
+  else
+    // number of pomodoro rounds
+    for (int p = 1; p <= 4; ++p)
+    {
+      lcd.print("let's go!!!");
+      lcd.setCursor(7, 1);
+      lcd.print("Round ");
+      lcd.print(p);
+      delay(1000);
+
+      // stop after 4 complete pomodoro rounds
+      if (p > 4)
+      {
+        pixels.clear();
+        break;
+      }
+      else
+        // work portion of pomodoro
+        // lights up 1 additional LED every 5 minutes for a maximum of 5 LEDs, 5*5 = 25 minute time interval
+        for (int i = 0; i < NUMPIXELS; i++) 
+        {
+          pixels.setPixelColor(i, 150, 0, 0); // set LEDs to red
+          pixels.show();
+
+          // updates LCD screen once per second for 5 minutes = 5*60 = 300 times
+          for (int w = 1; w <= 300; ++w)
+          {
+            workMode();
+            PIR();
+          }
+        }
+      pixels.clear();
+      // work portion is over, now in break portion of Pomodoro
+      // lights up 1 additional light every 1 minute for a maximum of 5 lights, 1*5 = 5 minute time interval
+      for (int i = 0; i < NUMPIXELS; i++)
+      {
+        pixels.setPixelColor(i, 0, 150, 0);  // set LEDs to green
+        pixels.show();
+
+        // updates LCD screen once per second for 1 minute = 1*60 = 60 times
+        for (int b = 1; b <= 60; ++b)
+        {
+          breakMode();
+        }
+      }
+      Serial.println("pomodoro finished");
+      pixels.clear();
+      pomodoroflag = 1;
+    }
+}
+
+// function that runs during the work portion of the pomodoro
+void workMode()
+{
+  float m, s;
+  unsigned long over;
+  elapsed = millis() - startTime;
+  over = elapsed % 3600000;
+  m = int((over / 60000) - 30 * (p - 1));
+  over = over % 60000;
+  s = int(over / 1000);
+  lcd.setCursor(0, 1);
+  lcd.print(m, 0);
+  lcd.print(":");
+  lcd.print(s, 0);
+  lcd.print("/25 "); // out of 25 minutes
+  lcd.print("Round ");
+  lcd.print(p); // number of rounds
+  delay(1000);  // updates every second
+}
+
+// function that runs during the work portion of the pomodoro
+void breakMode()
+{
+  float m, s;
+  unsigned long over;
+  elapsed = millis() - startTime;
+  over = elapsed % 3600000;
+  m = int((over / 60000) - 25 * (p)-5 * (p - 1));
+  over = over % 60000;
+  s = int((over / 1000));
+  lcd.setCursor(0, 0);
+  lcd.setCursor(0, 1);
+  lcd.print(m, 0);
+  lcd.print(":");
+  lcd.print(s, 0);
+  lcd.print("/5  "); // out of 5 minutes
+  lcd.print("Round ");
+  lcd.print(p); // number of pomodoro rounds
+  delay(1000);  // updates LCD screen every second
+}
+
+// function that links the output of the PIR sensor to updating the LCD screen during work portion of Pomodoro
+void PIR()
+{
+  readPIR = digitalRead(inputPin); // check if motion detected
+
+  if (readPIR == 1)
+  { // motion detected from PIR sensor
+    lcd.clear();
+    nomotionflag = 0; // value indicates motion
+    lcd.println("working.........");
+    delay(500);
+  }
+
+  else
+  { // no motion detected
+    if (nomotionflag == 0)
+    {
+      lcd.clear();
+      lcd.println(string[random(0, 10)]);
+      // prints a random motivational message out of 10 to the LCD screen
+      nomotionflag = 1; // value indicates lack of motion
+    }
+  }
+}
