@@ -63,9 +63,8 @@ To account for the different time intervals in between updates to the Neopixel s
 
 
 **Demonstration video of Motion Sensing Pomodoro Timer:**
-https://youtube.com/shorts/T6F4kPXfHqc
 
-[![Watch the video](https://user-images.githubusercontent.com/114293506/213215887-9f95f5c9-a8de-48c3-994a-4ef4a7a5d4f7.jpg)](https://youtu.be/T-D1KVIuvjA)
+[![Watch the video](https://user-images.githubusercontent.com/114293506/213215887-9f95f5c9-a8de-48c3-994a-4ef4a7a5d4f7.jpg)](https://youtube.com/shorts/T6F4kPXfHqc)
 
 Timelapse of my timer as it senses my movements in one Pomodoro study session
 
