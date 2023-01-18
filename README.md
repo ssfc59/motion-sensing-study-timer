@@ -62,7 +62,7 @@ To account for the different time intervals in between updates to the Neopixel s
 ![Screenshot_20230118_033852](https://user-images.githubusercontent.com/114293506/213218431-b8525e5d-a322-4fb4-9954-bc8f53d06423.png)
 
 
-**Demonstration video of Motion Sensing Pomodoro Timer:**
+**Click to watch the demonstration video of Motion Sensing Pomodoro Timer:**
 
 [![Watch the video](https://user-images.githubusercontent.com/114293506/213215887-9f95f5c9-a8de-48c3-994a-4ef4a7a5d4f7.jpg)](https://youtube.com/shorts/T6F4kPXfHqc)
 
