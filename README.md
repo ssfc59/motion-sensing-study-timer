@@ -54,14 +54,18 @@ The LCD screen while PIR reading is high
 The LCD screen offering encouragement while the PIR reading is low
 
 **Code:**
+
 To account for the different time intervals in between updates to the Neopixel strip and LCD screen, I coded with nested loops, whereupon the “inner loop” would execute a set amount of times for each iteration of the “outer loop” to update the LCD screen a proportionate number of times for the lighting up of each additional Neopixel during both the Pomodoro and the break. I explain this more in detail in the code comments.
 
 ![61C23B6E-8471-4B83-83FB-DE630541C4E1](https://user-images.githubusercontent.com/114293506/213215887-9f95f5c9-a8de-48c3-994a-4ef4a7a5d4f7.jpg)
 
+**Circuit Diagram Schematic:**
+![Screenshot_20230118_033852](https://user-images.githubusercontent.com/114293506/213218431-b8525e5d-a322-4fb4-9954-bc8f53d06423.png)
+
+
 **Demonstration video of Motion Sensing Pomodoro Timer:**
 https://youtube.com/shorts/T6F4kPXfHqc
-
-
+Timelapse of my timer as it senses my movements in one Pomodoro study session
 
 
 
