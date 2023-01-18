@@ -17,7 +17,7 @@ LiquidCrystal lcd(7, 6, 2, 3, 4, 5);
 //PIR
 uint8_t inputPin = 9;               
 uint8_t readPIR = 0; //to assume lack of motion when first started
-uint8_t nomotionflag = 1; //value that indicates lack of motion, was 0
+uint8_t nomotionflag = 0; //value that indicates lack of motion
 
 //encouraging message
 const char string[][17] = {"you got this <3 ","great job!!     ","bravo!! :D      ","let's go!       ", "keep it up ^_^  ", "keep going!     ", "you can do it!  ", "nice work!      ", "amazing!!       ", "hang in there <3"};
@@ -41,7 +41,7 @@ Serial.print("connecting to LCD.");
 pinMode(inputPin, INPUT); 
     
 //encouraging message
-randomSeed(analogRead(0)); //obtains random number value from unconnected pin
+randomSeed(analogRead(0));
 
 }
 void loop() {
@@ -78,22 +78,22 @@ void loop() {
           // updates LCD screen once per second for 5 minutes = 5*60 = 300 times
           for (int w = 1; w <= 300; ++w)
           {
-            float m, s;
-            unsigned long over;
-            elapsed = millis() - startTime;
-            over = elapsed % 3600000;
-            m = int((over / 60000) - 30 * (p - 1));
-            over = over % 60000;
-            s = int(over / 1000);
-            lcd.setCursor(0, 1);
-            lcd.print(m, 0);
-            lcd.print("m");
-            lcd.print(s, 0);
-            lcd.print("s/25 "); // out of 25 minutes
-            lcd.print("Round");
-            lcd.print(p); // number of rounds
-            delay(1000);  // updates LCD screen every second
-            PIR();  //runs function for PIR sensor
+    float m, s;
+    unsigned long over;
+    elapsed = millis() - startTime;
+    over = elapsed % 3600000;
+    m = int((over / 60000) - 30 * (p - 1));
+    over = over % 60000;
+    s = int(over / 1000);
+    lcd.setCursor(0, 1);
+    lcd.print(m, 0);
+    lcd.print("m");
+    lcd.print(s, 0);
+    lcd.print("s/25 "); // out of 25 minutes
+    lcd.print("Round");
+    lcd.print(p); // number of rounds
+    delay(1000);  // updates every second
+    PIR();
           }
         }
       pixels.clear();
@@ -114,16 +114,16 @@ void loop() {
           m = int((over / 60000) - 25 * (p)-5 * (p - 1));
           over = over % 60000;
           s = int((over / 1000));
-          lcd.setCursor(0, 0);
-          lcd.print ("Break time :D");
-          lcd.setCursor(0, 1);
-          lcd.print(m, 0);
-          lcd.print("m");
-          lcd.print(s, 0);
-          lcd.print("s/5  "); // out of 25 minutes
-          lcd.print("Round");
-          lcd.print(p); // number of rounds
-          delay(1000);  // updates LCD screen every second
+  lcd.setCursor(0, 0);
+  lcd.print ("Break time :D");
+  lcd.setCursor(0, 1);
+  lcd.print(m, 0);
+   lcd.print("m");
+  lcd.print(s, 0);
+  lcd.print("s/5  "); // out of 25 minutes
+  lcd.print("Round");
+  lcd.print(p); // number of rounds
+  delay(1000);  // updates LCD screen every second
         }
       }
       Serial.println("pomodoro finished");
@@ -146,7 +146,7 @@ void loop() {
       if (nomotionflag == 0) {
         lcd.clear();
         lcd.println(string[random(0, 10)]);
-        //random string out of 7 is printed on LCD screen
+        //random string out of 10 is printed on LCD screen
         nomotionflag = 1;        //value indicates lack of motion
       }
     }
